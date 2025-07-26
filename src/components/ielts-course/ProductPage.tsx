@@ -18,7 +18,7 @@ export function ProductPage({ data }: Props) {
         dangerouslySetInnerHTML={{ __html: data.description }}
       />
 
-      {/* Later: instructors, media, cta, sections etc */}
+      {/* later parts */}
     </div>
   );
 }

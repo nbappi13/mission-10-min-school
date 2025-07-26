@@ -2,10 +2,11 @@
 
 export interface Medium {
   id: number;
-  url: string;
+  url: string; 
   type: string;
   thumbnail_url: string;
 }
+
 
 export interface Checklist {
   id: number;
@@ -61,4 +62,8 @@ export interface Data {
   seo: Seo;
   cta_text: CtaText;
   sections: Section[];
+
+  name: string;
+  price: number;
+  image: string | null;
 }
