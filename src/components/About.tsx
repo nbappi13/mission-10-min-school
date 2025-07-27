@@ -42,7 +42,7 @@ export default function About({ aboutSection }: AboutProps) {
 
           return (
             <div key={item.id} className="border border-gray-200 rounded-lg overflow-hidden">
-              {/* accordion header - clickable */}
+              {/* accordion header */}
               <button
                 onClick={() => toggleItem(item.id)}
                 className="w-full px-6 py-4 text-left bg-gray-50 hover:bg-gray-100 transition-colors flex items-center justify-between"
@@ -60,7 +60,7 @@ export default function About({ aboutSection }: AboutProps) {
                 </div>
               </button>
 
-              {/* accordion content - collapsible */}
+              {/* accordion content  */}
               {isOpen && (
                 <div className="px-6 py-4 bg-white">
                   <div
@@ -76,3 +76,4 @@ export default function About({ aboutSection }: AboutProps) {
     </div>
   )
 }
+

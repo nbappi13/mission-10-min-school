@@ -1,5 +1,6 @@
 import { getProductData } from "@/lib/getProductData"
 import ProductBanner from "@/components/ProductBanner"
+import SectionNavigation from "@/components/SectionNavigation"
 import Instructors from "@/components/Instructors"
 import Features from "@/components/Features"
 import Pointers from "@/components/Pointers"
@@ -39,11 +40,22 @@ export default async function IELTSPage() {
   // finding the about section
   const aboutSection = product.sections?.find((section: { type: string }) => section.type === "about")
 
+  // prepare navigation sections
+  const navigationSections = [
+    ...(instructorsSection ? [{ id: "instructors", name: instructorsSection.name, type: "instructors" }] : []),
+    ...(featuresSection ? [{ id: "features", name: featuresSection.name, type: "features" }] : []),
+    ...(pointersSection ? [{ id: "pointers", name: pointersSection.name, type: "pointers" }] : []),
+    ...(featureExplanationsSection
+      ? [{ id: "exclusive-features", name: featureExplanationsSection.name, type: "feature_explanations" }]
+      : []),
+    ...(aboutSection ? [{ id: "about", name: aboutSection.name, type: "about" }] : []),
+  ]
+
   return (
     <>
       <ProductBanner />
 
-      {/* main content area with sticky sidebar */}
+      {/* skill landing section */}
       <div className="w-full px-4 py-8 bg-gray-50">
         <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* left content area (2/3) */}
@@ -60,8 +72,8 @@ export default async function IELTSPage() {
                       <Image
                         src="https://cdn.10minuteschool.com/images/Dev_Handoff_Q1_24_Frame_2_1725444418666.png"
                         alt="Rating badge showing 82.6% 5-star ratings"
-                        width={130} // have to set up later
-                        height={0} // future removal and use class for height
+                        width={130}
+                        height={0}
                         className="md:w-[130px] w-[100px] h-auto"
                       />
                     </span>
@@ -78,22 +90,45 @@ export default async function IELTSPage() {
               </div>
             </div>
 
+            {/* section navigation - positioned in left column only */}
+            <div className="bg-white rounded-lg p-4">
+              <SectionNavigation sections={navigationSections} />
+            </div>
+
             {/* instructors section */}
-            {instructorsSection && <Instructors instructorsSection={instructorsSection} />}
+            {instructorsSection && (
+              <div id="instructors">
+                <Instructors instructorsSection={instructorsSection} />
+              </div>
+            )}
 
             {/* features section */}
-            {featuresSection && <Features featuresSection={featuresSection} />}
+            {featuresSection && (
+              <div id="features">
+                <Features featuresSection={featuresSection} />
+              </div>
+            )}
 
             {/* pointers section */}
-            {pointersSection && <Pointers pointersSection={pointersSection} />}
+            {pointersSection && (
+              <div id="pointers">
+                <Pointers pointersSection={pointersSection} />
+              </div>
+            )}
 
             {/* feature explanations section */}
-            {featureExplanationsSection && <ExclusiveFeature featureExplanationsSection={featureExplanationsSection} />}
+            {featureExplanationsSection && (
+              <div id="exclusive-features">
+                <ExclusiveFeature featureExplanationsSection={featureExplanationsSection} />
+              </div>
+            )}
 
             {/* about section */}
-            {aboutSection && <About aboutSection={aboutSection} />}
-
-            {/* future sections */}
+            {aboutSection && (
+              <div id="about">
+                <About aboutSection={aboutSection} />
+              </div>
+            )}
           </div>
 
           {/* right sidebar (1/3) - sticky */}
@@ -147,6 +182,19 @@ export default async function IELTSPage() {
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+
+      {/* main content sections */}
+      <div className="w-full px-4 py-8 bg-gray-50">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* left content area (2/3) */}
+          <div className="lg:col-span-2 space-y-8"></div>
+
+          {/* right sidebar continues to be sticky */}
+          <div className="lg:col-span-1">
+            <div className="h-4"></div> {/* spacer to align with content */}
           </div>
         </div>
       </div>
