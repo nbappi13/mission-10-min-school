@@ -1,31 +1,29 @@
-import { getProductData } from "@/lib/getProductData";
-import ProductBanner from "@/components/ProductBanner";
-import Instructors from "@/components/Instructors";
-import Image from "next/image";
+import { getProductData } from "@/lib/getProductData"
+import ProductBanner from "@/components/ProductBanner"
+import Instructors from "@/components/Instructors"
+import Features from "@/components/Features"
+import Image from "next/image"
 
 export default async function IELTSPage() {
-  const productData = await getProductData();
+  const productData = await getProductData()
 
   if (!productData || !productData.data) {
-    return (
-      <div className="text-red-600 text-center p-6">
-        Failed to load product data
-      </div>
-    );
+    return <div className="text-red-600 text-center p-6">Failed to load product data</div>
   }
 
-  const product = productData.data;
+  const product = productData.data
 
   // finding the trailer video from media array
   const trailerVideo = product.media?.find(
     (media: { name: string; resource_type: string }) =>
-      media.name === "preview_gallery" && media.resource_type === "video"
-  );
+      media.name === "preview_gallery" && media.resource_type === "video",
+  )
 
   // finding the instructors section
-  const instructorsSection = product.sections?.find(
-    (section: { type: string }) => section.type === "instructors"
-  );
+  const instructorsSection = product.sections?.find((section: { type: string }) => section.type === "instructors")
+
+  // finding the features section
+  const featuresSection = product.sections?.find((section: { type: string }) => section.type === "features")
 
   return (
     <>
@@ -39,9 +37,7 @@ export default async function IELTSPage() {
             {/* skill landing left content */}
             <div className="space-y-6">
               <div className="space-y-4">
-                <h1 className="text-3xl lg:text-4xl font-bold text-gray-900 leading-tight">
-                  {product.title}
-                </h1>
+                <h1 className="text-3xl lg:text-4xl font-bold text-gray-900 leading-tight">{product.title}</h1>
 
                 {/* rating section */}
                 <div className="mb-2">
@@ -69,17 +65,18 @@ export default async function IELTSPage() {
             </div>
 
             {/* instructors section */}
-            {instructorsSection && (
-              <Instructors instructorsSection={instructorsSection} />
-            )}
+            {instructorsSection && <Instructors instructorsSection={instructorsSection} />}
 
-            {/* future sections  */}
+            {/* features section */}
+            {featuresSection && <Features featuresSection={featuresSection} />}
+
+            {/* future sections */}
           </div>
 
           {/* right sidebar (1/3) - sticky */}
           <div className="lg:col-span-1">
             <div className="sticky top-4 space-y-4">
-              {/* video Trailer */}
+              {/* video trailer */}
               {trailerVideo ? (
                 <div className="aspect-video bg-gray-200 rounded-lg overflow-hidden">
                   <iframe
@@ -96,12 +93,10 @@ export default async function IELTSPage() {
                 </div>
               )}
 
-              {/* CTA section */}
+              {/* cta section */}
               <div className="bg-white p-6 rounded-lg shadow-sm border">
                 <div className="space-y-4">
-                  <div className="text-2xl font-bold text-green-600">
-                    ৳১,০০০
-                  </div>
+                  <div className="text-2xl font-bold text-green-600">৳১,০০০</div>
                   <button className="w-full bg-green-600 text-white px-6 py-3 rounded-md font-semibold hover:bg-green-700 transition-colors">
                     {product.cta_text.name}
                   </button>
@@ -110,31 +105,22 @@ export default async function IELTSPage() {
 
               {/* checklist section */}
               <div className="bg-white p-6 rounded-lg shadow-sm border">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">
-                  এই কোর্সে যা থাকছে
-                </h3>
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">এই কোর্সে যা থাকছে</h3>
                 <div className="space-y-3">
-                  {product.checklist.map(
-                    (item: { id: string; icon: string; text: string }) => (
-                      <div
-                        key={item.id}
-                        className="flex items-center space-x-3"
-                      >
-                        <div className="flex-shrink-0">
-                          <Image
-                            src={item.icon || "/placeholder.svg"}
-                            alt=""
-                            width={20}
-                            height={20}
-                            className="w-5 h-5"
-                          />
-                        </div>
-                        <span className="text-sm text-gray-700">
-                          {item.text}
-                        </span>
+                  {product.checklist.map((item: { id: string; icon: string; text: string }) => (
+                    <div key={item.id} className="flex items-center space-x-3">
+                      <div className="flex-shrink-0">
+                        <Image
+                          src={item.icon || "/placeholder.svg"}
+                          alt=""
+                          width={20}
+                          height={20}
+                          className="w-5 h-5"
+                        />
                       </div>
-                    )
-                  )}
+                      <span className="text-sm text-gray-700">{item.text}</span>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
@@ -142,5 +128,5 @@ export default async function IELTSPage() {
         </div>
       </div>
     </>
-  );
+  )
 }
