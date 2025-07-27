@@ -4,6 +4,7 @@ import Instructors from "@/components/Instructors"
 import Features from "@/components/Features"
 import Pointers from "@/components/Pointers"
 import ExclusiveFeature from "@/components/ExclusiveFeature"
+import About from "@/components/About"
 import Image from "next/image"
 
 export default async function IELTSPage() {
@@ -34,6 +35,9 @@ export default async function IELTSPage() {
   const featureExplanationsSection = product.sections?.find(
     (section: { type: string }) => section.type === "feature_explanations",
   )
+
+  // finding the about section
+  const aboutSection = product.sections?.find((section: { type: string }) => section.type === "about")
 
   return (
     <>
@@ -85,6 +89,9 @@ export default async function IELTSPage() {
 
             {/* feature explanations section */}
             {featureExplanationsSection && <ExclusiveFeature featureExplanationsSection={featureExplanationsSection} />}
+
+            {/* about section */}
+            {aboutSection && <About aboutSection={aboutSection} />}
 
             {/* future sections */}
           </div>
