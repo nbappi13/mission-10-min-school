@@ -1,32 +1,5 @@
 import Image from "next/image"
-
-interface TrailerVideo {
-  name: string
-  resource_type: string
-  resource_value: string
-  thumbnail_url?: string
-}
-
-interface CtaText {
-  name: string
-  value: string
-}
-
-interface ChecklistItem {
-  color: string
-  icon: string
-  id: string
-  list_page_visibility: boolean
-  text: string
-}
-
-interface SkillLandingProps {
-  title: string
-  description: string
-  trailerVideo?: TrailerVideo
-  ctaText: CtaText
-  checklist: ChecklistItem[]
-}
+import type { SkillLandingProps } from "@/types/ieltsCourse"
 
 export default function SkillLanding({ title, description, trailerVideo, ctaText, checklist }: SkillLandingProps) {
   // convert YouTube video ID to embed URL

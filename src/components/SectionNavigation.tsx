@@ -2,16 +2,7 @@
 
 import { useEffect, useState, useRef } from "react"
 import { ChevronLeft, ChevronRight } from "lucide-react"
-
-interface SectionNavItem {
-  id: string
-  name: string
-  type: string
-}
-
-interface SectionNavigationProps {
-  sections: SectionNavItem[]
-}
+import type { SectionNavigationProps } from "@/types/ieltsCourse"
 
 export default function SectionNavigation({ sections }: SectionNavigationProps) {
   const [activeSection, setActiveSection] = useState<string>("")
@@ -90,7 +81,7 @@ export default function SectionNavigation({ sections }: SectionNavigationProps) 
       {canScrollLeft && (
         <button
           onClick={() => scrollNavigation("left")}
-          className="absolute left-0 z-10 bg-green-500 shadow-md rounded-full p-2 hover:bg-gray-50 transition-colors"
+          className="absolute left-0 z-10 bg-white shadow-md rounded-full p-2 hover:bg-gray-50 transition-colors"
           style={{ transform: "translateX(-50%)" }}
         >
           <ChevronLeft className="w-4 h-4 text-gray-600" />
@@ -122,7 +113,7 @@ export default function SectionNavigation({ sections }: SectionNavigationProps) 
       {canScrollRight && (
         <button
           onClick={() => scrollNavigation("right")}
-          className="absolute right-0 z-10 bg-green-500 shadow-md rounded-full p-2 hover:bg-gray-50 transition-colors"
+          className="absolute right-0 z-10 bg-white shadow-md rounded-full p-2 hover:bg-gray-50 transition-colors"
           style={{ transform: "translateX(50%)" }}
         >
           <ChevronRight className="w-4 h-4 text-gray-600" />

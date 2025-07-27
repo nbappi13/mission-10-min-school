@@ -2,26 +2,7 @@
 
 import { useState } from "react"
 import { ChevronDown, ChevronUp } from "lucide-react"
-
-interface AboutItem {
-  description: string
-  icon: string
-  id: string
-  title: string
-}
-
-interface AboutSection {
-  type: string
-  name: string
-  description: string
-  bg_color: string
-  order_idx: number
-  values: AboutItem[]
-}
-
-interface AboutProps {
-  aboutSection: AboutSection
-}
+import type { AboutProps } from "@/types/ieltsCourse"
 
 export default function About({ aboutSection }: AboutProps) {
   const [openItems, setOpenItems] = useState<string[]>([])
@@ -60,7 +41,7 @@ export default function About({ aboutSection }: AboutProps) {
                 </div>
               </button>
 
-              {/* accordion content  */}
+              {/* accordion content */}
               {isOpen && (
                 <div className="px-6 py-4 bg-white">
                   <div
@@ -76,4 +57,3 @@ export default function About({ aboutSection }: AboutProps) {
     </div>
   )
 }
-

@@ -1,22 +1,4 @@
-interface PointerItem {
-  color: string
-  icon: string
-  id: string
-  text: string
-}
-
-interface PointersSection {
-  type: string
-  name: string
-  description: string
-  bg_color: string
-  order_idx: number
-  values: PointerItem[]
-}
-
-interface PointersProps {
-  pointersSection: PointersSection
-}
+import type { PointersProps } from "@/types/ieltsCourse"
 
 export default function Pointers({ pointersSection }: PointersProps) {
   return (

@@ -7,6 +7,16 @@ import Pointers from "@/components/Pointers"
 import ExclusiveFeature from "@/components/ExclusiveFeature"
 import About from "@/components/About"
 import Image from "next/image"
+import MediaGallery from "@/components/MediaGallery"
+import type {
+  ProductData,
+  InstructorsSection,
+  FeaturesSection,
+  PointersSection,
+  FeatureExplanationsSection,
+  AboutSection,
+  ChecklistItem,
+} from "@/types/ieltsCourse"
 
 export default async function IELTSPage() {
   const productData = await getProductData()
@@ -15,32 +25,18 @@ export default async function IELTSPage() {
     return <div className="text-red-600 text-center p-6">Failed to load product data</div>
   }
 
-  const product = productData.data
+  const product: ProductData = productData.data
 
-  // finding the trailer video from media array
-  const trailerVideo = product.media?.find(
-    (media: { name: string; resource_type: string }) =>
-      media.name === "preview_gallery" && media.resource_type === "video",
+  const instructorsSection = product.sections?.find(
+    (section): section is InstructorsSection => section.type === "instructors",
   )
-
-  // finding the instructors section
-  const instructorsSection = product.sections?.find((section: { type: string }) => section.type === "instructors")
-
-  // finding the features section
-  const featuresSection = product.sections?.find((section: { type: string }) => section.type === "features")
-
-  // finding the pointers section
-  const pointersSection = product.sections?.find((section: { type: string }) => section.type === "pointers")
-
-  // finding the feature explanations section
+  const featuresSection = product.sections?.find((section): section is FeaturesSection => section.type === "features")
+  const pointersSection = product.sections?.find((section): section is PointersSection => section.type === "pointers")
   const featureExplanationsSection = product.sections?.find(
-    (section: { type: string }) => section.type === "feature_explanations",
+    (section): section is FeatureExplanationsSection => section.type === "feature_explanations",
   )
+  const aboutSection = product.sections?.find((section): section is AboutSection => section.type === "about")
 
-  // finding the about section
-  const aboutSection = product.sections?.find((section: { type: string }) => section.type === "about")
-
-  // prepare navigation sections
   const navigationSections = [
     ...(instructorsSection ? [{ id: "instructors", name: instructorsSection.name, type: "instructors" }] : []),
     ...(featuresSection ? [{ id: "features", name: featuresSection.name, type: "features" }] : []),
@@ -55,17 +51,13 @@ export default async function IELTSPage() {
     <>
       <ProductBanner />
 
-      {/* skill landing section */}
       <div className="w-full px-4 py-8 bg-gray-50">
         <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* left content area (2/3) */}
           <div className="lg:col-span-2 space-y-8">
-            {/* skill landing left content */}
             <div className="space-y-6">
               <div className="space-y-4">
                 <h1 className="text-3xl lg:text-4xl font-bold text-gray-900 leading-tight">{product.title}</h1>
 
-                {/* rating section */}
                 <div className="mb-2">
                   <div className="flex flex-row flex-wrap gap-2 items-center">
                     <span className="inline-block">
@@ -90,40 +82,34 @@ export default async function IELTSPage() {
               </div>
             </div>
 
-            {/* section navigation - positioned in left column only */}
             <div className="bg-white rounded-lg p-4">
               <SectionNavigation sections={navigationSections} />
             </div>
 
-            {/* instructors section */}
             {instructorsSection && (
               <div id="instructors">
                 <Instructors instructorsSection={instructorsSection} />
               </div>
             )}
 
-            {/* features section */}
             {featuresSection && (
               <div id="features">
                 <Features featuresSection={featuresSection} />
               </div>
             )}
 
-            {/* pointers section */}
             {pointersSection && (
               <div id="pointers">
                 <Pointers pointersSection={pointersSection} />
               </div>
             )}
 
-            {/* feature explanations section */}
             {featureExplanationsSection && (
               <div id="exclusive-features">
                 <ExclusiveFeature featureExplanationsSection={featureExplanationsSection} />
               </div>
             )}
 
-            {/* about section */}
             {aboutSection && (
               <div id="about">
                 <About aboutSection={aboutSection} />
@@ -131,27 +117,12 @@ export default async function IELTSPage() {
             )}
           </div>
 
-          {/* right sidebar (1/3) - sticky */}
-          <div className="lg:col-span-1">
-            <div className="sticky top-4 space-y-4">
-              {/* video trailer */}
-              {trailerVideo ? (
-                <div className="aspect-video bg-gray-200 rounded-lg overflow-hidden">
-                  <iframe
-                    className="w-full h-full"
-                    src={`https://www.youtube.com/embed/${trailerVideo.resource_value}`}
-                    title="Course Trailer"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  />
-                </div>
-              ) : (
-                <div className="aspect-video bg-gray-200 rounded-lg flex items-center justify-center">
-                  <p className="text-gray-500">No trailer available</p>
-                </div>
-              )}
+          <div className="lg:col-span-1 space-y-4">
+            {/* media gallery - not sticky */}
+            <MediaGallery media={product.media || []} />
 
-              {/* cta section */}
+            {/* only cta and checklist are sticky */}
+            <div className="sticky top-4 space-y-4">
               <div className="bg-white p-6 rounded-lg shadow-sm border">
                 <div className="space-y-4">
                   <div className="text-2xl font-bold text-green-600">৳১,০০০</div>
@@ -161,11 +132,10 @@ export default async function IELTSPage() {
                 </div>
               </div>
 
-              {/* checklist section */}
               <div className="bg-white p-6 rounded-lg shadow-sm border">
                 <h3 className="text-lg font-semibold text-gray-900 mb-4">এই কোর্সে যা থাকছে</h3>
                 <div className="space-y-3">
-                  {product.checklist.map((item: { id: string; icon: string; text: string }) => (
+                  {product.checklist.map((item: ChecklistItem) => (
                     <div key={item.id} className="flex items-center space-x-3">
                       <div className="flex-shrink-0">
                         <Image
@@ -182,19 +152,6 @@ export default async function IELTSPage() {
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
-
-      {/* main content sections */}
-      <div className="w-full px-4 py-8 bg-gray-50">
-        <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* left content area (2/3) */}
-          <div className="lg:col-span-2 space-y-8"></div>
-
-          {/* right sidebar continues to be sticky */}
-          <div className="lg:col-span-1">
-            <div className="h-4"></div> {/* spacer to align with content */}
           </div>
         </div>
       </div>

@@ -1,26 +1,5 @@
 import Image from "next/image"
-
-interface InstructorData {
-  description: string
-  has_instructor_page: boolean
-  image: string
-  name: string
-  short_description: string
-  slug: string
-}
-
-interface InstructorsSection {
-  type: string
-  name: string
-  description: string
-  bg_color: string
-  order_idx: number
-  values: InstructorData[]
-}
-
-interface InstructorsProps {
-  instructorsSection: InstructorsSection
-}
+import type { InstructorsProps } from "@/types/ieltsCourse"
 
 export default function Instructors({ instructorsSection }: InstructorsProps) {
   return (

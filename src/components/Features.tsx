@@ -1,24 +1,5 @@
 import Image from "next/image"
-
-interface FeatureItem {
-  icon: string
-  id: string
-  subtitle: string
-  title: string
-}
-
-interface FeaturesSection {
-  type: string
-  name: string
-  description: string
-  bg_color: string
-  order_idx: number
-  values: FeatureItem[]
-}
-
-interface FeaturesProps {
-  featuresSection: FeaturesSection
-}
+import type { FeaturesProps } from "@/types/ieltsCourse"
 
 export default function Features({ featuresSection }: FeaturesProps) {
   return (
