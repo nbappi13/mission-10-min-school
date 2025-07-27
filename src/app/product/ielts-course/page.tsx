@@ -26,9 +26,10 @@ export default async function IELTSPage() {
         description={product.description}
         trailerVideo={trailerVideo}
         ctaText={product.cta_text}
+        checklist={product.checklist}
       />
 
-      <main className="p-8 space-y-6 max-w-6xl mx-auto">{/* Other sections */}</main>
+      <main className="p-8 space-y-6 max-w-6xl mx-auto">{/* other sections */}</main>
     </>
   )
 }
