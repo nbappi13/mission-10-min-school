@@ -1,30 +1,18 @@
-// src/components/ProductBanner.tsx
-"use client";
+"use client"
 
-import Image from "next/image";
+import Image from "next/image"
 
 type ProductBannerProps = {
-  imageUrl?: string | null;
-};
+  imageUrl?: string | null
+}
 
 export default function ProductBanner({ imageUrl }: ProductBannerProps) {
-  //  fallback if imageUrl is empty
-  const fallbackImage =
-    "https://cdn.10minuteschool.com/images/dasktop_banner_1753270611489.png?w=1800";
-
-  if (!imageUrl) {
-    imageUrl = fallbackImage;
-  }
+  // using the fallback image since API doesn't provide banner bg image
+  const bannerImage = imageUrl || "https://cdn.10minuteschool.com/images/dasktop_banner_1753270611489.png?w=1800"
 
   return (
-    <div className="relative w-screen h-[150px] mx-auto">
-      <Image
-        src={imageUrl}
-        alt="IELTS Course Banner"
-        fill
-        className="object-cover"
-        priority
-      />
+    <div className="relative w-full h-[200px] md:h-[300px]">
+      <Image src={bannerImage || "/placeholder.svg"} alt="IELTS Course Banner" fill className="object-cover" priority />
     </div>
-  );
+  )
 }
