@@ -2,6 +2,7 @@ import { getProductData } from "@/lib/getProductData"
 import ProductBanner from "@/components/ProductBanner"
 import Instructors from "@/components/Instructors"
 import Features from "@/components/Features"
+import Pointers from "@/components/Pointers"
 import Image from "next/image"
 
 export default async function IELTSPage() {
@@ -24,6 +25,9 @@ export default async function IELTSPage() {
 
   // finding the features section
   const featuresSection = product.sections?.find((section: { type: string }) => section.type === "features")
+
+  // finding the pointers section
+  const pointersSection = product.sections?.find((section: { type: string }) => section.type === "pointers")
 
   return (
     <>
@@ -69,6 +73,9 @@ export default async function IELTSPage() {
 
             {/* features section */}
             {featuresSection && <Features featuresSection={featuresSection} />}
+
+            {/* pointers section */}
+            {pointersSection && <Pointers pointersSection={pointersSection} />}
 
             {/* future sections */}
           </div>
