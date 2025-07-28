@@ -3,18 +3,32 @@
 import { useState } from "react"
 import { ChevronDown, ChevronUp } from "lucide-react"
 import type { AboutProps } from "@/types/ieltsCourse"
+import { useLocalization } from "@/contexts/LocalizationContext" 
 
 export default function About({ aboutSection }: AboutProps) {
   const [openItems, setOpenItems] = useState<string[]>([])
+  const { t } = useLocalization() // use the localization hook
 
   const toggleItem = (itemId: string) => {
     setOpenItems((prev) => (prev.includes(itemId) ? prev.filter((id) => id !== itemId) : [...prev, itemId]))
   }
 
+  // map section type to translation key
+  const getTranslatedSectionName = (type: string): string => {
+    switch (type) {
+      case "about":
+        return t("nav.about")
+      default:
+        return aboutSection.name // fallback to original name
+    }
+  }
+
   return (
     <div className="bg-white rounded-lg p-6">
-      {/* section title */}
-      <h2 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-6">{aboutSection.name}</h2>
+      {/* section title - now localized */}
+      <h2 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-6">
+        {getTranslatedSectionName(aboutSection.type)}
+      </h2>
 
       {/* accordion items */}
       <div className="space-y-4">

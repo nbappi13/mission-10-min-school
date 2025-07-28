@@ -1,15 +1,26 @@
-import "./globals.css";
-import { ReactNode } from "react";
+import type React from "react"
+import type { Metadata } from "next"
+import { Inter } from "next/font/google"
+import "./globals.css"
+import { LocalizationProvider } from "@/contexts/LocalizationContext"
 
-export const metadata = {
-  title: "IELTS Course by Munzereen Shahid",
-  description: "IELTS preparation course from 10 Minute School",
-};
+const inter = Inter({ subsets: ["latin"] })
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export const metadata: Metadata = {
+  title: "IELTS Course - 10 Minute School",
+  description: "Complete IELTS preparation course with expert instructors",
+}
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body className={inter.className}>
+        <LocalizationProvider>{children}</LocalizationProvider>
+      </body>
     </html>
-  );
+  )
 }

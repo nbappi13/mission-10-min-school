@@ -1,10 +1,27 @@
+"use client" 
+
 import type { PointersProps } from "@/types/ieltsCourse"
+import { useLocalization } from "@/contexts/LocalizationContext" 
 
 export default function Pointers({ pointersSection }: PointersProps) {
+  const { t } = useLocalization() 
+
+  // map section type to translation key
+  const getTranslatedSectionName = (type: string): string => {
+    switch (type) {
+      case "pointers":
+        return t("nav.pointers")
+      default:
+        return pointersSection.name // fallback to original name
+    }
+  }
+
   return (
     <div className="bg-white rounded-lg p-6">
-      {/* section title */}
-      <h2 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-6">{pointersSection.name}</h2>
+      {/* section title - now localized */}
+      <h2 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-6">
+        {getTranslatedSectionName(pointersSection.type)}
+      </h2>
 
       {/* pointers grid - 2 columns */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

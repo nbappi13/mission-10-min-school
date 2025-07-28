@@ -1,11 +1,28 @@
+"use client" 
+
 import Image from "next/image"
 import type { FeaturesProps } from "@/types/ieltsCourse"
+import { useLocalization } from "@/contexts/LocalizationContext" 
 
 export default function Features({ featuresSection }: FeaturesProps) {
+  const { t } = useLocalization() // Use the localization hook
+
+  // map section type to translation key
+  const getTranslatedSectionName = (type: string): string => {
+    switch (type) {
+      case "features":
+        return t("nav.features")
+      default:
+        return featuresSection.name // fallback to original name
+    }
+  }
+
   return (
     <div className="bg-white rounded-lg p-6">
-      {/* section title */}
-      <h2 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-6">{featuresSection.name}</h2>
+      {/* section title - now localized */}
+      <h2 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-6">
+        {getTranslatedSectionName(featuresSection.type)}
+      </h2>
 
       {/* features grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

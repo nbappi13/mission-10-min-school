@@ -1,11 +1,28 @@
+"use client" 
+
 import Image from "next/image"
 import type { InstructorsProps } from "@/types/ieltsCourse"
+import { useLocalization } from "@/contexts/LocalizationContext" 
 
 export default function Instructors({ instructorsSection }: InstructorsProps) {
+  const { t } = useLocalization() 
+
+  // map section type to translation key
+  const getTranslatedSectionName = (type: string): string => {
+    switch (type) {
+      case "instructors":
+        return t("nav.instructors")
+      default:
+        return instructorsSection.name // fallback to original name if no specific translation key
+    }
+  }
+
   return (
     <div className="bg-white rounded-lg p-6">
-      {/* section title */}
-      <h2 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-6">{instructorsSection.name}</h2>
+      {/* section title - now localized */}
+      <h2 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-6">
+        {getTranslatedSectionName(instructorsSection.type)}
+      </h2>
 
       {/* instructors content */}
       <div className="space-y-6">

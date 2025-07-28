@@ -117,6 +117,21 @@ export interface SectionNavItem {
   type: string
 }
 
+// localization types
+export type Locale = "en" | "bn"
+
+export interface LocaleConfig {
+  code: Locale
+  name: string
+  flag: string
+}
+
+export interface LocalizationContextType {
+  locale: Locale
+  setLocale: (locale: Locale) => void
+  t: (key: string) => string
+}
+
 // component prop interfaces
 export interface InstructorsProps {
   instructorsSection: InstructorsSection

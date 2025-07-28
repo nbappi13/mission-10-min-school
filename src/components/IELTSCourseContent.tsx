@@ -1,15 +1,15 @@
-import { getProductData } from "@/lib/getProductData"
-import ProductBanner from "@/components/ProductBanner"
+"use client"
+
+import Image from "next/image"
+import { useLocalization } from "@/contexts/LocalizationContext"
 import SectionNavigation from "@/components/SectionNavigation"
 import Instructors from "@/components/Instructors"
 import Features from "@/components/Features"
 import Pointers from "@/components/Pointers"
 import ExclusiveFeature from "@/components/ExclusiveFeature"
 import About from "@/components/About"
-import LanguageSwitcher from "@/components/LanguageSwitcher" // Import LanguageSwitcher
-import Image from "next/image"
 import MediaGallery from "@/components/MediaGallery"
-import IELTSCourseContent from "@/components/IELTSCourseContent" // Import the new client component
+import LanguageSwitcher from "@/components/LanguageSwitcher"
 import type {
   ProductData,
   InstructorsSection,
@@ -18,16 +18,15 @@ import type {
   FeatureExplanationsSection,
   AboutSection,
   ChecklistItem,
+  SectionNavItem,
 } from "@/types/ieltsCourse"
 
-export default async function IELTSPage() {
-  const productData = await getProductData()
+interface IELTSCourseContentProps {
+  product: ProductData
+}
 
-  if (!productData || !productData.data) {
-    return <div className="text-red-600 text-center p-6">Failed to load product data</div>
-  }
-
-  const product: ProductData = productData.data
+export default function IELTSCourseContent({ product }: IELTSCourseContentProps) {
+  const { t } = useLocalization()
 
   const instructorsSection = product.sections?.find(
     (section): section is InstructorsSection => section.type === "instructors",
@@ -39,20 +38,55 @@ export default async function IELTSPage() {
   )
   const aboutSection = product.sections?.find((section): section is AboutSection => section.type === "about")
 
-  const navigationSections = [
-    ...(instructorsSection ? [{ id: "instructors", name: instructorsSection.name, type: "instructors" }] : []),
-    ...(featuresSection ? [{ id: "features", name: featuresSection.name, type: "features" }] : []),
-    ...(pointersSection ? [{ id: "pointers", name: pointersSection.name, type: "pointers" }] : []),
-    ...(featureExplanationsSection
-      ? [{ id: "exclusive-features", name: featureExplanationsSection.name, type: "feature_explanations" }]
+  // Helper to get translated section names for navigation
+  const getTranslatedSectionName = (type: string): string => {
+    switch (type) {
+      case "instructors":
+        return t("nav.instructors")
+      case "features":
+        return t("nav.features")
+      case "pointers":
+        return t("nav.pointers")
+      case "feature_explanations":
+        return t("nav.exclusive")
+      case "about":
+        return t("nav.about")
+      default:
+        // fallback to original name if no specific translation key is found
+        
+        if (type === "instructors" && instructorsSection) return instructorsSection.name
+        if (type === "features" && featuresSection) return featuresSection.name
+        if (type === "pointers" && pointersSection) return pointersSection.name
+        if (type === "feature_explanations" && featureExplanationsSection) return featureExplanationsSection.name
+        if (type === "about" && aboutSection) return aboutSection.name
+        return type
+    }
+  }
+
+  const navigationSections: SectionNavItem[] = [
+    ...(instructorsSection
+      ? [{ id: "instructors", name: getTranslatedSectionName(instructorsSection.type), type: "instructors" }]
       : []),
-    ...(aboutSection ? [{ id: "about", name: aboutSection.name, type: "about" }] : []),
+    ...(featuresSection
+      ? [{ id: "features", name: getTranslatedSectionName(featuresSection.type), type: "features" }]
+      : []),
+    ...(pointersSection
+      ? [{ id: "pointers", name: getTranslatedSectionName(pointersSection.type), type: "pointers" }]
+      : []),
+    ...(featureExplanationsSection
+      ? [
+          {
+            id: "exclusive-features",
+            name: getTranslatedSectionName(featureExplanationsSection.type),
+            type: "feature_explanations",
+          },
+        ]
+      : []),
+    ...(aboutSection ? [{ id: "about", name: getTranslatedSectionName(aboutSection.type), type: "about" }] : []),
   ]
 
   return (
     <>
-      <ProductBanner />
-
       {/* language switcher */}
       <div className="w-full px-4 py-4 bg-gray-50">
         <div className="max-w-6xl mx-auto flex justify-end">
@@ -65,7 +99,8 @@ export default async function IELTSPage() {
           <div className="lg:col-span-2 space-y-8">
             <div className="space-y-6">
               <div className="space-y-4">
-                <h1 className="text-3xl lg:text-4xl font-bold text-gray-900 leading-tight">{product.title}</h1>
+                {/* localized product title */}
+                <h1 className="text-3xl lg:text-4xl font-bold text-gray-900 leading-tight">{t("course.title")}</h1>
 
                 <div className="mb-2">
                   <div className="flex flex-row flex-wrap gap-2 items-center">
@@ -78,12 +113,12 @@ export default async function IELTSPage() {
                         className="md:w-[130px] w-[100px] h-auto"
                       />
                     </span>
-                    <span className="inline-block text-sm md:text-base text-black">
-                      (82.6% শিক্ষার্থী কোর্স শেষে ৫ রেটিং দিয়েছেন)
-                    </span>
+                    {/* Localized rating text */}
+                    <span className="inline-block text-sm md:text-base text-black">{t("course.rating")}</span>
                   </div>
                 </div>
 
+                
                 <div
                   className="text-gray-700 prose prose-sm max-w-none"
                   dangerouslySetInnerHTML={{ __html: product.description }}
@@ -125,23 +160,27 @@ export default async function IELTSPage() {
           </div>
 
           <div className="lg:col-span-1 space-y-4">
-            {/* media gallery  */}
+            {/* media gallery - not sticky */}
             <MediaGallery media={product.media || []} />
 
-            {/*  cta and checklist are sticky */}
+            {/* only cta and checklist are sticky */}
             <div className="sticky top-20 space-y-4">
               <div className="bg-white p-6 rounded-lg shadow-sm border">
                 <div className="space-y-4">
-                  <div className="text-2xl font-bold text-green-600">৳১,০০০</div>
+                  {/* localized price */}
+                  <div className="text-2xl font-bold text-green-600">{t("course.price")}</div>
+                  {/* Localized CTA button text */}
                   <button className="w-full bg-green-600 text-white px-6 py-3 rounded-md font-semibold hover:bg-green-700 transition-colors">
-                    {product.cta_text.name}
+                    {t("course.enroll")}
                   </button>
                 </div>
               </div>
 
               <div className="bg-white p-6 rounded-lg shadow-sm border">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">এই কোর্সে যা থাকছে</h3>
+                {/* localized checklist title */}
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">{t("course.includes")}</h3>
                 <div className="space-y-3">
+                  {/* checklist items are assumed to be localized by API or not needing client-side translation */}
                   {product.checklist.map((item: ChecklistItem) => (
                     <div key={item.id} className="flex items-center space-x-3">
                       <div className="flex-shrink-0">
@@ -162,9 +201,6 @@ export default async function IELTSPage() {
           </div>
         </div>
       </div>
-
-      {/* Render the client component and pass the fetched product data */}
-      <IELTSCourseContent product={product} />
     </>
   )
 }

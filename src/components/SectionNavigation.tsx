@@ -14,7 +14,13 @@ export default function SectionNavigation({ sections }: SectionNavigationProps) 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId)
     if (element) {
-      element.scrollIntoView({ behavior: "smooth", block: "start" })
+      // account for sticky navigation height
+      const offset = 80
+      const elementPosition = element.offsetTop - offset
+      window.scrollTo({
+        top: elementPosition,
+        behavior: "smooth",
+      })
       setActiveSection(sectionId)
     }
   }
@@ -54,7 +60,7 @@ export default function SectionNavigation({ sections }: SectionNavigationProps) 
           }
         })
       },
-      { threshold: 0.3 },
+      { threshold: 0.3, rootMargin: "-80px 0px 0px 0px" },
     )
 
     sections.forEach((section) => {
@@ -76,49 +82,51 @@ export default function SectionNavigation({ sections }: SectionNavigationProps) 
   }, [])
 
   return (
-    <div className="relative flex items-center">
-      {/* left arrow */}
-      {canScrollLeft && (
-        <button
-          onClick={() => scrollNavigation("left")}
-          className="absolute left-0 z-10 bg-white shadow-md rounded-full p-2 hover:bg-gray-50 transition-colors"
-          style={{ transform: "translateX(-50%)" }}
-        >
-          <ChevronLeft className="w-4 h-4 text-gray-600" />
-        </button>
-      )}
+    <div className="sticky top-0 z-50 bg-white shadow-sm border-b">
+      <div className="relative flex items-center px-4 py-2">
+        {/* left arrow */}
+        {canScrollLeft && (
+          <button
+            onClick={() => scrollNavigation("left")}
+            className="absolute left-2 z-10 bg-white shadow-md rounded-full p-2 hover:bg-gray-50 transition-colors"
+            style={{ transform: "translateX(-50%)" }}
+          >
+            <ChevronLeft className="w-4 h-4 text-gray-600" />
+          </button>
+        )}
 
-      {/* navigation content */}
-      <div
-        ref={scrollContainerRef}
-        className="scrollbar-hide relative flex flex-nowrap gap-4 overflow-x-scroll scroll-smooth snap-x snap-mandatory w-full"
-      >
-        <ul className="flex border-b flex-nowrap w-full">
-          {sections.map((section) => (
-            <li
-              key={section.id}
-              className={`text-nowrap p-2 text-base ${
-                activeSection === section.id ? "text-green-600 border-b-2 border-green-600" : "text-gray-600"
-              }`}
-            >
-              <button onClick={() => scrollToSection(section.id)} className="hover:text-green-600 transition-colors">
-                {section.name}
-              </button>
-            </li>
-          ))}
-        </ul>
+        {/* navigation content */}
+        <div
+          ref={scrollContainerRef}
+          className="scrollbar-hide relative flex flex-nowrap gap-4 overflow-x-scroll scroll-smooth snap-x snap-mandatory w-full"
+        >
+          <ul className="flex border-b flex-nowrap w-full">
+            {sections.map((section) => (
+              <li
+                key={section.id}
+                className={`text-nowrap p-2 text-base ${
+                  activeSection === section.id ? "text-green-600 border-b-2 border-green-600" : "text-gray-600"
+                }`}
+              >
+                <button onClick={() => scrollToSection(section.id)} className="hover:text-green-600 transition-colors">
+                  {section.name}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* right arrow */}
+        {canScrollRight && (
+          <button
+            onClick={() => scrollNavigation("right")}
+            className="absolute right-2 z-10 bg-white shadow-md rounded-full p-2 hover:bg-gray-50 transition-colors"
+            style={{ transform: "translateX(50%)" }}
+          >
+            <ChevronRight className="w-4 h-4 text-gray-600" />
+          </button>
+        )}
       </div>
-
-      {/* right arrow */}
-      {canScrollRight && (
-        <button
-          onClick={() => scrollNavigation("right")}
-          className="absolute right-0 z-10 bg-white shadow-md rounded-full p-2 hover:bg-gray-50 transition-colors"
-          style={{ transform: "translateX(50%)" }}
-        >
-          <ChevronRight className="w-4 h-4 text-gray-600" />
-        </button>
-      )}
 
       <style jsx>{`
         .scrollbar-hide {
