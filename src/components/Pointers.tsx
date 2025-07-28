@@ -1,4 +1,4 @@
-"use client" 
+"use client" // Make it a Client Component
 
 import type { PointersProps } from "@/types/ieltsCourse"
 import { useLocalization } from "@/contexts/LocalizationContext" 
@@ -6,7 +6,7 @@ import { useLocalization } from "@/contexts/LocalizationContext"
 export default function Pointers({ pointersSection }: PointersProps) {
   const { t } = useLocalization() 
 
-  // map section type to translation key
+  // mapping section type 
   const getTranslatedSectionName = (type: string): string => {
     switch (type) {
       case "pointers":

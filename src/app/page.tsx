@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation"
 
 export default function HomePage() {
-  redirect("/product/ielts-course")
+  redirect("/en/product/ielts-course") // Redirect to a default locale
 }

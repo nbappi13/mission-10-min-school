@@ -1,19 +1,19 @@
-"use client" 
+"use client" // Make it a Client Component
 
 import Image from "next/image"
 import type { InstructorsProps } from "@/types/ieltsCourse"
 import { useLocalization } from "@/contexts/LocalizationContext" 
 
 export default function Instructors({ instructorsSection }: InstructorsProps) {
-  const { t } = useLocalization() 
+  const { t } = useLocalization() // using the localization hook
 
-  // map section type to translation key
+  // mapping section type to translation key
   const getTranslatedSectionName = (type: string): string => {
     switch (type) {
       case "instructors":
         return t("nav.instructors")
       default:
-        return instructorsSection.name // fallback to original name if no specific translation key
+        return instructorsSection.name // fallback to original name 
     }
   }
 

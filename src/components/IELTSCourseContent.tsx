@@ -1,7 +1,7 @@
 "use client"
 
 import Image from "next/image"
-import { useLocalization } from "@/contexts/LocalizationContext"
+import { useLocalization } from "@/contexts/LocalizationContext" 
 import SectionNavigation from "@/components/SectionNavigation"
 import Instructors from "@/components/Instructors"
 import Features from "@/components/Features"
@@ -26,7 +26,7 @@ interface IELTSCourseContentProps {
 }
 
 export default function IELTSCourseContent({ product }: IELTSCourseContentProps) {
-  const { t } = useLocalization()
+  const { t } = useLocalization() 
 
   const instructorsSection = product.sections?.find(
     (section): section is InstructorsSection => section.type === "instructors",
@@ -38,7 +38,7 @@ export default function IELTSCourseContent({ product }: IELTSCourseContentProps)
   )
   const aboutSection = product.sections?.find((section): section is AboutSection => section.type === "about")
 
-  // Helper to get translated section names for navigation
+  // helper to get translated section names for navigation
   const getTranslatedSectionName = (type: string): string => {
     switch (type) {
       case "instructors":
@@ -52,8 +52,8 @@ export default function IELTSCourseContent({ product }: IELTSCourseContentProps)
       case "about":
         return t("nav.about")
       default:
-        // fallback to original name if no specific translation key is found
-        
+        // fallback to original name 
+        // this is for section names that come directly from the API 
         if (type === "instructors" && instructorsSection) return instructorsSection.name
         if (type === "features" && featuresSection) return featuresSection.name
         if (type === "pointers" && pointersSection) return pointersSection.name
@@ -93,14 +93,13 @@ export default function IELTSCourseContent({ product }: IELTSCourseContentProps)
           <LanguageSwitcher />
         </div>
       </div>
-
       <div className="w-full px-4 py-8 bg-gray-50">
         <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-8">
             <div className="space-y-6">
               <div className="space-y-4">
-                {/* localized product title */}
-                <h1 className="text-3xl lg:text-4xl font-bold text-gray-900 leading-tight">{t("course.title")}</h1>
+                {/* product title from API  */}
+                <h1 className="text-3xl lg:text-4xl font-bold text-gray-900 leading-tight">{product.title}</h1>
 
                 <div className="mb-2">
                   <div className="flex flex-row flex-wrap gap-2 items-center">
@@ -113,12 +112,13 @@ export default function IELTSCourseContent({ product }: IELTSCourseContentProps)
                         className="md:w-[130px] w-[100px] h-auto"
                       />
                     </span>
-                    {/* Localized rating text */}
-                    <span className="inline-block text-sm md:text-base text-black">{t("course.rating")}</span>
+                    {/* localized rating text */}
+                    <span className="inline-block text-sm md:text-base text-black">{t("course.rating")}</span>{" "}
+                    {/* fallback for rating text if not directly from API */}
                   </div>
                 </div>
 
-                
+                {/* product description from API  */}
                 <div
                   className="text-gray-700 prose prose-sm max-w-none"
                   dangerouslySetInnerHTML={{ __html: product.description }}
@@ -163,24 +163,28 @@ export default function IELTSCourseContent({ product }: IELTSCourseContentProps)
             {/* media gallery - not sticky */}
             <MediaGallery media={product.media || []} />
 
-            {/* only cta and checklist are sticky */}
+            {/* sticky cta and checklist  */}
             <div className="sticky top-20 space-y-4">
               <div className="bg-white p-6 rounded-lg shadow-sm border">
                 <div className="space-y-4">
-                  {/* localized price */}
-                  <div className="text-2xl font-bold text-green-600">{t("course.price")}</div>
-                  {/* Localized CTA button text */}
+                  {/* price from API  */}
+                  <div className="text-2xl font-bold text-green-600">{product.price}</div>{" "}
+                 
+                  {/* CTA button text from API  */}
                   <button className="w-full bg-green-600 text-white px-6 py-3 rounded-md font-semibold hover:bg-green-700 transition-colors">
-                    {t("course.enroll")}
+                    {product.cta_text.name}
                   </button>
                 </div>
               </div>
 
               <div className="bg-white p-6 rounded-lg shadow-sm border">
-                {/* localized checklist title */}
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">{t("course.includes")}</h3>
+                {/* checklist title from API  */}
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                  {product.checklist_title || t("course.includes")}
+                </h3>{" "}
+              
                 <div className="space-y-3">
-                  {/* checklist items are assumed to be localized by API or not needing client-side translation */}
+                  {/* checklist items from API */}
                   {product.checklist.map((item: ChecklistItem) => (
                     <div key={item.id} className="flex items-center space-x-3">
                       <div className="flex-shrink-0">

@@ -109,6 +109,9 @@ export interface ProductData {
   checklist: ChecklistItem[]
   cta_text: CtaText
   media: MediaItem[]
+  price: string 
+  checklist_title?: string 
+  image?: string | null // added image property
 }
 
 export interface SectionNavItem {

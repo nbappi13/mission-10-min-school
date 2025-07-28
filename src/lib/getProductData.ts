@@ -1,8 +1,11 @@
 // function to fetch product data from the API
-export async function getProductData() {
+import type { Locale } from "@/types/ieltsCourse" 
+
+export async function getProductData(lang: Locale) {
+  // Accept lang parameter
   try {
     const res = await fetch(
-      "https://api.10minuteschool.com/discovery-service/api/v1/products/ielts-course?lang=bn", // changed to bn
+      `https://api.10minuteschool.com/discovery-service/api/v1/products/ielts-course?lang=${lang}`, // Use lang parameter
       {
         headers: {
           "X-TENMS-SOURCE-PLATFORM": "web", // required custom header

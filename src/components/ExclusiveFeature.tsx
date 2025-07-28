@@ -5,7 +5,7 @@ import type { FeatureExplanationsProps } from "@/types/ieltsCourse"
 import { useLocalization } from "@/contexts/LocalizationContext" 
 
 export default function ExclusiveFeature({ featureExplanationsSection }: FeatureExplanationsProps) {
-  const { t } = useLocalization() // Use the localization hook
+  const { t } = useLocalization() 
 
   // map section type to translation key
   const getTranslatedSectionName = (type: string): string => {
@@ -13,7 +13,7 @@ export default function ExclusiveFeature({ featureExplanationsSection }: Feature
       case "feature_explanations":
         return t("nav.exclusive")
       default:
-        return featureExplanationsSection.name // fallback to original name
+        return featureExplanationsSection.name 
     }
   }
 

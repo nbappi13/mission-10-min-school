@@ -41,7 +41,7 @@ export default function SectionNavigation({ sections }: SectionNavigationProps) 
     }
   }
 
-  // check scroll position to show/hide arrows
+  // checking scroll position to show/hide arrows
   const checkScrollPosition = () => {
     if (scrollContainerRef.current) {
       const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current
@@ -71,7 +71,7 @@ export default function SectionNavigation({ sections }: SectionNavigationProps) 
     return () => observer.disconnect()
   }, [sections])
 
-  // check scroll position on mount and scroll
+  // checking scroll position on mount and scroll
   useEffect(() => {
     checkScrollPosition()
     const container = scrollContainerRef.current

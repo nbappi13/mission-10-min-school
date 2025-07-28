@@ -36,20 +36,22 @@ const translations = {
 
 interface LocalizationProviderProps {
   children: React.ReactNode
+  initialLocale: Locale // added initialLocale prop
 }
 
-export function LocalizationProvider({ children }: LocalizationProviderProps) {
-  const [locale, setLocale] = useState<Locale>("bn")
+export function LocalizationProvider({ children, initialLocale }: LocalizationProviderProps) {
+  const [locale, setLocale] = useState<Locale>(initialLocale) 
 
-  // load locale from localStorage on mount
+  // load locale from localStorage on mount and update if different from initialLocale
+  
   useEffect(() => {
     const savedLocale = localStorage.getItem("locale") as Locale
-    if (savedLocale && (savedLocale === "en" || savedLocale === "bn")) {
+    if (savedLocale && (savedLocale === "en" || savedLocale === "bn") && savedLocale !== locale) {
       setLocale(savedLocale)
     }
-  }, [])
+  }, [locale]) // depend on locale to re-check if it changes externally 
 
-  // save locale to localStorage when changed
+  // saved locale to localStorage when changed
   const handleSetLocale = (newLocale: Locale) => {
     setLocale(newLocale)
     localStorage.setItem("locale", newLocale)

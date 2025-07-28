@@ -5,15 +5,15 @@ import type { FeaturesProps } from "@/types/ieltsCourse"
 import { useLocalization } from "@/contexts/LocalizationContext" 
 
 export default function Features({ featuresSection }: FeaturesProps) {
-  const { t } = useLocalization() // Use the localization hook
+  const { t } = useLocalization() 
 
-  // map section type to translation key
+  // map section type 
   const getTranslatedSectionName = (type: string): string => {
     switch (type) {
       case "features":
         return t("nav.features")
       default:
-        return featuresSection.name // fallback to original name
+        return featuresSection.name // fallback 
     }
   }
 

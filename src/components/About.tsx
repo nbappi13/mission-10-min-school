@@ -19,7 +19,7 @@ export default function About({ aboutSection }: AboutProps) {
       case "about":
         return t("nav.about")
       default:
-        return aboutSection.name // fallback to original name
+        return aboutSection.name // Fallback to original name
     }
   }
 
