@@ -2,10 +2,10 @@
 import type { Locale } from "@/types/ieltsCourse" 
 
 export async function getProductData(lang: Locale) {
-  // Accept lang parameter
+  // accepted lang parameter
   try {
     const res = await fetch(
-      `https://api.10minuteschool.com/discovery-service/api/v1/products/ielts-course?lang=${lang}`, // Use lang parameter
+      `https://api.10minuteschool.com/discovery-service/api/v1/products/ielts-course?lang=${lang}`, // used lang parameter
       {
         headers: {
           "X-TENMS-SOURCE-PLATFORM": "web", // required custom header

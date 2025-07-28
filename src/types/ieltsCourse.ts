@@ -102,6 +102,13 @@ export interface MediaItem {
   thumbnail_url?: string
 }
 
+export interface Seo {
+  // moved Seo interface here
+  title: string
+  description: string
+  keywords: string
+}
+
 export interface ProductData {
   title: string
   description: string
@@ -111,7 +118,8 @@ export interface ProductData {
   media: MediaItem[]
   price: string 
   checklist_title?: string 
-  image?: string | null // added image property
+  image?: string | null
+  seo?: Seo // added seo property
 }
 
 export interface SectionNavItem {
@@ -201,11 +209,6 @@ export interface Checklist {
   title: string
 }
 
-export interface Seo {
-  title: string
-  description: string
-  keywords: string
-}
 
 export interface Data {
   slug: string
@@ -214,7 +217,7 @@ export interface Data {
   description: string
   media: Medium[]
   checklist: Checklist[]
-  seo: Seo
+  seo: Seo 
   cta_text: CtaText
   sections: Section[]
   name: string
